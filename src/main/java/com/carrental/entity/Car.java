@@ -1,17 +1,20 @@
-package com.carrental.carrental;
+package com.carrental.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name="cars")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,19 +22,14 @@ public class Car {
     private String brand;
     private String model;
     private BigDecimal dailyFee;
-    private LocalDateTime date_created;
-    private LocalDateTime last_updated;
     private String registration;
     private BigDecimal dailyPenalty;
     private BigDecimal fuelConsumption;
     private String typeOfFuel;
+    private Audit audit = new Audit();
 
-    @PrePersist
-    void prePersist() {
-        date_created = LocalDateTime.now();
-    }
-    @PreUpdate
-    void preUpdate() {
-        last_updated = LocalDateTime.now();
-    }
+    @ManyToOne
+    @JoinColumn(name="car_type_id")
+    private CarType carType;
+
 }
