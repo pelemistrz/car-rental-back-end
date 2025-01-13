@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -14,7 +15,8 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Audit audit=new Audit();
+    private LocalDateTime date_created;
+    private LocalDateTime last_updated;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="car_id")
@@ -27,7 +29,14 @@ public class Reservation {
     @JoinColumn(name="fuel_usage_id")
     private FuelUsage fuelUsage;
 
-
+    @PrePersist
+    void prePersist() {
+        date_created = LocalDateTime.now();
+    }
+    @PreUpdate
+    void preUpdate() {
+        last_updated = LocalDateTime.now();
+    }
 
 
 
