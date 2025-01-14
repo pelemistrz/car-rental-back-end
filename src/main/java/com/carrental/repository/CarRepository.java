@@ -15,4 +15,5 @@ import org.springframework.transaction.annotation.Transactional;
 public interface CarRepository extends JpaRepository<Car, Long> {
     Page<Car> findByCarTypeId(@Param("id") Long id, Pageable pageable);
 
+    Page<Car> findByModelContaining(@Param("model") String model, Pageable pageable);
 }
