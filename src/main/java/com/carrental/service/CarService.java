@@ -35,4 +35,8 @@ public class CarService {
     public Page<Car> getCarsByModel(String name, Pageable pageable) {
         return carRepository.findByModelContaining(name,pageable);
     }
+
+    public Car getCarById(Long id) {
+        return carRepository.findById(id).orElse(null);
+    }
 }

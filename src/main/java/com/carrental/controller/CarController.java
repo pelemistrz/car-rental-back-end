@@ -29,8 +29,12 @@ public class CarController {
         return carService.getCarsByCarTypeId(carTypeId,pageable);
     }
 
-    @GetMapping("/car/{name}")
-    public Page<Car> getCarsByCarModel(@PathVariable("name") String name,Pageable pageable){
-        return carService.getCarsByModel(name,pageable);
+    @GetMapping("/car/{model}")
+    public Page<Car> getCarsByCarModel(@PathVariable("model") String model,Pageable pageable){
+        return carService.getCarsByModel(model,pageable);
+    }
+    @GetMapping("/{id}")
+    public Car getCarById(@PathVariable("id") Long id){
+        return carService.getCarById(id);
     }
 }

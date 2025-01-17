@@ -22,9 +22,10 @@ public class Car {
     private Long id;
     private String brand;
     private String model;
+    private Integer yearOfProduction;
     private BigDecimal dailyFee;
     private String registration;
-    private BigDecimal dailyPenalty;
+    private Integer carOdometer;
     private String imageUrl;
 
     private LocalDateTime date_created;

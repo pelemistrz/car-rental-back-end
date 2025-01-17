@@ -22,8 +22,12 @@ public class Reservation {
     @JoinColumn(name="car_id")
     private Car car;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="customer_id")
+    private Customer customer;
+
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @OneToOne
     @JoinColumn(name="fuel_usage_id")

@@ -20,6 +20,7 @@ public class FuelUsage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="fuel_category_id")
     private FuelCategory fuelCategory;
+
     private int CounterReadingBegin;
     private int CounterReadingEnd;
     private BigDecimal CostOfFuel;
