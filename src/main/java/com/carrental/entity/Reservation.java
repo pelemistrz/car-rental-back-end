@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,12 +23,15 @@ public class Reservation {
     @JoinColumn(name="car_id")
     private Car car;
 
+    private BigDecimal totalFee;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="customer_id")
     private Customer customer;
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
+
 
     @OneToOne
     @JoinColumn(name="fuel_usage_id")
