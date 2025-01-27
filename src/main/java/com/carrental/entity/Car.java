@@ -25,21 +25,14 @@ public class Car {
     private Integer yearOfProduction;
     private BigDecimal dailyFee;
     private String registration;
-    private Integer carOdometer;
     private String imageUrl;
-
     private LocalDateTime date_created;
     private LocalDateTime last_updated;
-
-
-    @ManyToOne
-    @JoinColumn(name="fuel_category_id")
-    private FuelCategory fuelCategory;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name="car_type_id")
     private CarType carType;
-
 
     @PrePersist
     void prePersist() {

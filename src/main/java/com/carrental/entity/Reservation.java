@@ -33,9 +33,7 @@ public class Reservation {
     private LocalDate endDate;
 
 
-    @OneToOne
-    @JoinColumn(name="fuel_usage_id")
-    private FuelUsage fuelUsage;
+
 
     @PrePersist
     void prePersist() {

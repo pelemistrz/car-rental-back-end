@@ -1,26 +1,34 @@
 package com.carrental.service;
 
+import com.carrental.dto.PaymentInfo;
 import com.carrental.dto.RentDto;
 import com.carrental.entity.Car;
 import com.carrental.entity.Customer;
 import com.carrental.entity.Reservation;
-import com.carrental.repository.CarRepository;
 import com.carrental.repository.CustomerRepository;
 import com.carrental.repository.ReservationRepository;
+import com.stripe.Stripe;
+import com.stripe.model.PaymentIntent;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import com.stripe.exception.StripeException;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Value;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Service
-@RequiredArgsConstructor
+
 public class RentService {
     private final CustomerRepository customerRepository;
-    private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
+
+    public RentService(CustomerRepository customerRepository, ReservationRepository reservationRepository,@Value("${stripe.key.secret}") String secretKey) {
+        this.customerRepository = customerRepository;
+        this.reservationRepository = reservationRepository;
+        Stripe.apiKey = secretKey;
+    }
 
     @Transactional
     public Long rentCar(RentDto rentDto){
@@ -40,8 +48,6 @@ public class RentService {
                     rentDto.getCustomer().getEmail());
             customerRepository.save(customer);
         }
-
-
         long howManyDays = ChronoUnit.DAYS.between(receptionDate,returnDate);
         BigDecimal totalFee =  car.getDailyFee().multiply(new BigDecimal(howManyDays));
 
@@ -55,4 +61,19 @@ public class RentService {
         reservationRepository.save(reservation);
         return reservation.getId();
     }
+
+    public PaymentIntent createPaymentIntent(PaymentInfo paymentInfo) throws  StripeException {
+        List<String> paymentMethodTypes = new ArrayList<>();
+        paymentMethodTypes.add("card");
+
+        Map<String,Object> params = new HashMap<>();
+        params.put("amount",paymentInfo.getAmount());
+        params.put("currency",paymentInfo.getCurrency());
+        params.put("payment_method_types",paymentMethodTypes);
+        params.put("receipt_email",paymentInfo.getReceiptEmail());
+        params.put("description","Car rental service");
+        return PaymentIntent.create(params);
+    }
+
+
 }
