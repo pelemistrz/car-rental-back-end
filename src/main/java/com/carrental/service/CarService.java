@@ -39,4 +39,10 @@ public class CarService {
     public Car getCarById(Long id) {
         return carRepository.findById(id).orElse(null);
     }
+
+    public void createCar(Car car) {
+        carRepository.save(car);
+    }
+
+
 }

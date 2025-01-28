@@ -15,4 +15,12 @@ public class CarType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String carType;
+
+    @Override
+    public String toString() {
+        return "CarType{" +
+                "id=" + id +
+                ", carType='" + carType + '\'' +
+                '}';
+    }
 }

@@ -42,4 +42,21 @@ public class Car {
     void preUpdate() {
         last_updated = LocalDateTime.now();
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", yearOfProduction=" + yearOfProduction +
+                ", dailyFee=" + dailyFee +
+                ", registration='" + registration + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", date_created=" + date_created +
+                ", last_updated=" + last_updated +
+                ", description='" + description + '\'' +
+                ", carType=" + carType +
+                '}';
+    }
 }
