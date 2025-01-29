@@ -11,6 +11,7 @@ import com.stripe.Stripe;
 import com.stripe.model.PaymentIntent;
 import jakarta.transaction.Transactional;
 import com.stripe.exception.StripeException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import java.math.BigDecimal;
@@ -18,8 +19,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+@Slf4j
 @Service
-
 public class RentService {
     private final CustomerRepository customerRepository;
     private final ReservationRepository reservationRepository;
@@ -48,7 +49,7 @@ public class RentService {
                     rentDto.getCustomer().getEmail());
             customerRepository.save(customer);
         }
-        long howManyDays = ChronoUnit.DAYS.between(receptionDate,returnDate);
+        long howManyDays = ChronoUnit.DAYS.between(receptionDate,returnDate)+1;
         BigDecimal totalFee =  car.getDailyFee().multiply(new BigDecimal(howManyDays));
 
         Reservation reservation = new Reservation();
@@ -57,7 +58,7 @@ public class RentService {
         reservation.setCustomer(customer);
         reservation.setStartDate(receptionDate);
         reservation.setEndDate(returnDate);
-
+        log.info(reservation.toString());
         reservationRepository.save(reservation);
         return reservation.getId();
     }

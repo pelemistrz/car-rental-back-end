@@ -44,10 +44,17 @@ public class Reservation {
         last_updated = LocalDateTime.now();
     }
 
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", date_created=" + date_created +
+                ", last_updated=" + last_updated +
+                ", car=" + car +
+                ", totalFee=" + totalFee +
+                ", customer=" + customer +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }
