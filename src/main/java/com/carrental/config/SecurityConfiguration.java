@@ -1,6 +1,5 @@
 package com.carrental.config;
 
-import com.okta.spring.boot.oauth.Okta;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -21,19 +20,17 @@ public class SecurityConfiguration {
                                 .authenticated()
                                 .anyRequest()
                                 .permitAll())
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
+                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(token -> token.jwtAuthenticationConverter(new KeycloakJwtAuthenticationConverter())));
         //Cors filters
         httpSecurity.cors(Customizer.withDefaults());
 
         //content negotiation strategy
         httpSecurity.setSharedObject(ContentNegotiationStrategy.class, new HeaderContentNegotiationStrategy());
-        //non-empty response body for 401
-        Okta.configureResourceServer401ResponseBody(httpSecurity);
+
         //we are not using cookies for session tracking >> disable CSRF
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         return httpSecurity.build();
-
     }
 
 }
