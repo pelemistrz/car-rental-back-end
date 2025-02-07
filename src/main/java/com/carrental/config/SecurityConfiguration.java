@@ -10,7 +10,7 @@ import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 
 @Configuration
-public class SecurityConfiguration {
+public class   SecurityConfiguration {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         //protect endpoint
